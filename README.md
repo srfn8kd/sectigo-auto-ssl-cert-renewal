@@ -130,7 +130,7 @@ Behavior highlights:
   - Safe for cron; supports locking and jitter.
 
 Cron example (daily at 02:30 with 60s jitter):\
-  30 2 * * * /fullPathTo/sectigo/sectigo.sh cron-renew --certs-dir /fullPathTo/sectigo/certs --keys-dir /fullPathTo/sectigo/keys --days 5 --lock --jitter 60 --quiet >> /fullPathTo/sectigo/logs/cron-renew.log 2>&1\
+  30 2 * * * /fullPathTo/sectigo/sectigo.sh cron-renew --certs-dir /fullPathTo/sectigo/certs --keys-dir /fullPathTo/sectigo/keys --days 5 --lock --jitter 60 --quiet >> /fullPathTo/sectigo/logs/cron-renew.log 2>&1
 
 C) Trust Helpers (Let’s Encrypt) – optional
 ---------------------------------------
@@ -139,50 +139,50 @@ indexers) use Let’s Encrypt, you can add LE CA certs to the trust bundle used
 to verify servers.
 
 1) Build/refresh the LE bundle:
-   ./sectigo-trust.sh le-trust --out-dir /fullPathTo/sectigo/certs\
+   ./sectigo-trust.sh le-trust --out-dir /fullPathTo/sectigo/certs
    Outputs:\
      lets-encrypt-r3.pem, isrgrootx1.pem, le-ca-bundle.pem
 
-2) Compose a combined trust (Sectigo chain + LE bundle):\
+2) Compose a combined trust (Sectigo chain + LE bundle):
    ./sectigo-trust.sh compose-trust \
      --certs-dir /fullPathTo/sectigo/certs \
      --out-dir  /fullPathTo/sectigo/certs\
    Output:\
      sectigo_and_le_roots.pem   # CA certs only, suitable for trust/verification
 
-Splunk example (outputs.conf):\
-  [tcpout:primary]\
-  server = indexer1.example.com:9998,indexer2.example.com:9998\
-  sslCertPath     = /fullPathTo/sectigo/certs/forwarder.pem\
-  sslRootCAPath   = /fullPathTo/sectigo/certs/sectigo_and_le_roots.pem\
-  sslVerifyServerCert = true\
+Splunk example (outputs.conf): \
+  [tcpout:primary] \
+  server = indexer1.example.com:9998,indexer2.example.com:9998 \
+  sslCertPath     = /fullPathTo/sectigo/certs/forwarder.pem \
+  sslRootCAPath   = /fullPathTo/sectigo/certs/sectigo_and_le_roots.pem \
+  sslVerifyServerCert = true
 
 CONFIGURATION (sectigo.env)
 =============================================
 You can set/override defaults here; scripts source this file automatically.
 
-Renewal thresholds & jitter:\
+Renewal thresholds & jitter:
   export SECTIGO_RENEW_DAYS=5                 # default for cron-renew --days\
   export SECTIGO_CRON_JITTER_MAX=60           # default jitter seconds\
   export SECTIGO_RENEW_MIN_INTERVAL_HOURS=24  # throttle repeat renewals\
   export SECTIGO_STATE_DIR="$HERE/state"      # throttle stamps location\
 
-Notifications (optional):\
-  export SECTIGO_NOTIFY_CMD="logger -t sectigo-renew"\
-  # The command is invoked as: $SECTIGO_NOTIFY_CMD <level> <message>\
+Notifications (optional):
+  export SECTIGO_NOTIFY_CMD="logger -t sectigo-renew" \
+  The command is invoked as: $SECTIGO_NOTIFY_CMD <level> <message>
 
-Trust defaults (optional):\
-  export LE_R3_URL="https://letsencrypt.org/certs/lets-encrypt-r3.pem"\
-  export LE_ISRG_ROOT_URL="https://letsencrypt.org/certs/isrgrootx1.pem"\
-  export SECTIGO_TRUST_OUT_DIR="$HERE/certs"\
-  export SECTIGO_LE_BUNDLE_NAME="le-ca-bundle.pem"\
-  export SECTIGO_COMPOSED_TRUST_NAME="sectigo_and_le_roots.pem"\
+Trust defaults (optional):
+  export LE_R3_URL="https://letsencrypt.org/certs/lets-encrypt-r3.pem" \
+  export LE_ISRG_ROOT_URL="https://letsencrypt.org/certs/isrgrootx1.pem" \
+  export SECTIGO_TRUST_OUT_DIR="$HERE/certs" \
+  export SECTIGO_LE_BUNDLE_NAME="le-ca-bundle.pem" \
+  export SECTIGO_COMPOSED_TRUST_NAME="sectigo_and_le_roots.pem" \
 
-Order comments (optional):\
-  export SECTIGO_ORDER_COMMENT="Routine renewal via automation"\
+Order comments (optional):
+  export SECTIGO_ORDER_COMMENT="Routine renewal via automation"
 
-Locking:\
-  export SECTIGO_LOCK_FILE="$HERE/.sectigo.lock"\
+Locking:
+  export SECTIGO_LOCK_FILE="$HERE/.sectigo.lock"
 
 
 TROUBLESHOOTING
