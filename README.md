@@ -204,5 +204,6 @@ TROUBLESHOOTING
 LICENSE / WARRANTY
 ===============================================================================
 This automation is provided as-is with no warranty. Validate outputs and test
-in a non-production environment before widespread deployment.
+in a non-production environment before widespread deployment.  No support is
+offered.
 
