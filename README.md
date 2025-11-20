@@ -1,12 +1,19 @@
-===============================================================================
+
 Sectigo SSL Issuance + Auto-Renew + Trust Utilities (README)
-===============================================================================
+=======================================================
 
 Overview
 --------
-This toolkit automates Sectigo certificate enrollment and renewal, and provides
-small helpers for building a trust bundle to validate servers using Let’s
-Encrypt (e.g., Splunk indexers utilizing Lets Encrypt for SSL certs).
+This toolkit is currently coded Splunk Forwarder specific but can be easily
+adjusted to fit any scenario.  As configured it automates Sectigo certificate
+enrollment and renewal, and provides small helpers for building a trust bundle
+to validate servers using Let’s Encrypt (e.g., Splunk indexers utilizing
+Lets Encrypt for SSL certs).
+
+I created it because there was no easy way to manage Windows SSL certificates
+so the purpose as written here is for use on a Splunk Deployment Server, which
+will handle all the cert generations and renewals and then the Windows Forwarders
+will pick them up as needed.
 
 Components
 ----------
